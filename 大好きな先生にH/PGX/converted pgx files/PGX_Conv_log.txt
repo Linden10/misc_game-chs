@@ -1,0 +1,377 @@
+PS C:\Users\ASUS\Downloads\Eroge\punipuni> python .\PGX_Conv.py extract .\c08d1.g\PT\FRM .\test
+Processing .\c08d1.g\PT\FRM\BT_HIS_DOWN.PGX:
+Header: 720000002800000001000010e214000000000000
+Width: 114, Height: 40, BPP: 32, Packed Size: 5346, Flags: 0
+Dimensions: 114x40, BPP: 32, Packed Size: 5346
+Decompressed data length: 18240
+Expected data length: 18240
+Image saved successfully to .\test\BT_HIS_DOWN.png
+Saved .\test\BT_HIS_DOWN.png
+Processing .\c08d1.g\PT\FRM\BT_HIS_DOWN_C.PGX:
+Header: 7200000028000000010000108e15000000000000
+Width: 114, Height: 40, BPP: 32, Packed Size: 5518, Flags: 0
+Dimensions: 114x40, BPP: 32, Packed Size: 5518
+Decompressed data length: 18240
+Expected data length: 18240
+Image saved successfully to .\test\BT_HIS_DOWN_C.png
+Saved .\test\BT_HIS_DOWN_C.png
+Processing .\c08d1.g\PT\FRM\BT_HIS_STOP.PGX:
+Header: 3a00000021000000010000107209000000000000
+Width: 58, Height: 33, BPP: 32, Packed Size: 2418, Flags: 0
+Dimensions: 58x33, BPP: 32, Packed Size: 2418
+Decompressed data length: 7656
+Expected data length: 7656
+Image saved successfully to .\test\BT_HIS_STOP.png
+Saved .\test\BT_HIS_STOP.png
+Processing .\c08d1.g\PT\FRM\BT_HIS_UP.PGX:
+Header: 720000002800000001000010d214000000000000
+Width: 114, Height: 40, BPP: 32, Packed Size: 5330, Flags: 0
+Dimensions: 114x40, BPP: 32, Packed Size: 5330
+Decompressed data length: 18240
+Expected data length: 18240
+Image saved successfully to .\test\BT_HIS_UP.png
+Saved .\test\BT_HIS_UP.png
+Processing .\c08d1.g\PT\FRM\BT_HIS_UP_C.PGX:
+Header: 720000002800000001000010b415000000000000
+Width: 114, Height: 40, BPP: 32, Packed Size: 5556, Flags: 0
+Dimensions: 114x40, BPP: 32, Packed Size: 5556
+Decompressed data length: 18240
+Expected data length: 18240
+Image saved successfully to .\test\BT_HIS_UP_C.png
+Saved .\test\BT_HIS_UP_C.png
+Processing .\c08d1.g\PT\FRM\CMNWIN.PGX:
+Header: be0200006e000000010000102a90000000000000
+Width: 702, Height: 110, BPP: 32, Packed Size: 36906, Flags: 0
+Dimensions: 702x110, BPP: 32, Packed Size: 36906
+Decompressed data length: 308880
+Expected data length: 308880
+Image saved successfully to .\test\CMNWIN.png
+Saved .\test\CMNWIN.png
+Processing .\c08d1.g\PT\FRM\CMNWIN_TAB.PGX:
+Header: e60000000a00000001000010f40d000000000000
+Width: 230, Height: 10, BPP: 32, Packed Size: 3572, Flags: 0
+Dimensions: 230x10, BPP: 32, Packed Size: 3572
+Decompressed data length: 9200
+Expected data length: 9200
+Image saved successfully to .\test\CMNWIN_TAB.png
+Saved .\test\CMNWIN_TAB.png
+Processing .\c08d1.g\PT\FRM\CMNWIN_WIN.PGX:
+Header: 520000003600000001000000d308000000000000
+Width: 82, Height: 54, BPP: 32, Packed Size: 2259, Flags: 0
+Dimensions: 82x54, BPP: 32, Packed Size: 2259
+Decompressed data length: 17712
+Expected data length: 17712
+Image saved successfully to .\test\CMNWIN_WIN.png
+Saved .\test\CMNWIN_WIN.png
+Processing .\c08d1.g\PT\FRM\CMN_CURSOR.PGX:
+Header: 140000001400000001000010c700000000000000
+Width: 20, Height: 20, BPP: 32, Packed Size: 199, Flags: 0
+Dimensions: 20x20, BPP: 32, Packed Size: 199
+Decompressed data length: 1600
+Expected data length: 1600
+Image saved successfully to .\test\CMN_CURSOR.png
+Saved .\test\CMN_CURSOR.png
+Processing .\c08d1.g\PT\FRM\DAYOFWEEK.PGX:
+Header: b901000010000000010000107f13000000000000
+Width: 441, Height: 16, BPP: 32, Packed Size: 4991, Flags: 0
+Dimensions: 441x16, BPP: 32, Packed Size: 4991
+Decompressed data length: 28224
+Expected data length: 28224
+Image saved successfully to .\test\DAYOFWEEK.png
+Saved .\test\DAYOFWEEK.png
+Processing .\c08d1.g\PT\FRM\DIG_CAL.PGX:
+Header: 10000000fa00000001000010fa09000000000000
+Width: 16, Height: 250, BPP: 32, Packed Size: 2554, Flags: 0
+Dimensions: 16x250, BPP: 32, Packed Size: 2554
+Decompressed data length: 16000
+Expected data length: 16000
+Image saved successfully to .\test\DIG_CAL.png
+Saved .\test\DIG_CAL.png
+Processing .\c08d1.g\PT\FRM\MAIN_AUTO_SLD.PGX:
+Header: 080000000800000001000000db00000000000000
+Width: 8, Height: 8, BPP: 32, Packed Size: 219, Flags: 0
+Dimensions: 8x8, BPP: 32, Packed Size: 219
+Decompressed data length: 256
+Expected data length: 256
+Image saved successfully to .\test\MAIN_AUTO_SLD.png
+Saved .\test\MAIN_AUTO_SLD.png
+Processing .\c08d1.g\PT\FRM\MAIN_AUTO_WIN.PGX:
+Header: 960000001d00000001000000ea17000000000000
+Width: 150, Height: 29, BPP: 32, Packed Size: 6122, Flags: 0
+Dimensions: 150x29, BPP: 32, Packed Size: 6122
+Decompressed data length: 17400
+Expected data length: 17400
+Image saved successfully to .\test\MAIN_AUTO_WIN.png
+Saved .\test\MAIN_AUTO_WIN.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_AUTO.PGX:
+Header: 2e0000000c000000010000002703000000000000
+Width: 46, Height: 12, BPP: 32, Packed Size: 807, Flags: 0
+Dimensions: 46x12, BPP: 32, Packed Size: 807
+Decompressed data length: 2208
+Expected data length: 2208
+Image saved successfully to .\test\MAIN_BT_AUTO.png
+Saved .\test\MAIN_BT_AUTO.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_AUTO_P.PGX:
+Header: 3b0000000f000000010000002104000000000000
+Width: 59, Height: 15, BPP: 32, Packed Size: 1057, Flags: 0
+Dimensions: 59x15, BPP: 32, Packed Size: 1057
+Decompressed data length: 3540
+Expected data length: 3540
+Image saved successfully to .\test\MAIN_BT_AUTO_P.png
+Saved .\test\MAIN_BT_AUTO_P.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_HIDE.PGX:
+Header: 0800000008000000010000003a00000000000000
+Width: 8, Height: 8, BPP: 32, Packed Size: 58, Flags: 0
+Dimensions: 8x8, BPP: 32, Packed Size: 58
+Decompressed data length: 256
+Expected data length: 256
+Image saved successfully to .\test\MAIN_BT_HIDE.png
+Saved .\test\MAIN_BT_HIDE.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_HIDE_P.PGX:
+Header: 0c0000000c000000010000006800000000000000
+Width: 12, Height: 12, BPP: 32, Packed Size: 104, Flags: 0
+Dimensions: 12x12, BPP: 32, Packed Size: 104
+Decompressed data length: 576
+Expected data length: 576
+Image saved successfully to .\test\MAIN_BT_HIDE_P.png
+Saved .\test\MAIN_BT_HIDE_P.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_PLAY.PGX:
+Header: 260000001800000001000000aa05000000000000
+Width: 38, Height: 24, BPP: 32, Packed Size: 1450, Flags: 0
+Dimensions: 38x24, BPP: 32, Packed Size: 1450
+Decompressed data length: 3648
+Expected data length: 3648
+Image saved successfully to .\test\MAIN_BT_PLAY.png
+Saved .\test\MAIN_BT_PLAY.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_PLAY_D.PGX:
+Header: 260000001800000001000000de04000000000000
+Width: 38, Height: 24, BPP: 32, Packed Size: 1246, Flags: 0
+Dimensions: 38x24, BPP: 32, Packed Size: 1246
+Decompressed data length: 3648
+Expected data length: 3648
+Image saved successfully to .\test\MAIN_BT_PLAY_D.png
+Saved .\test\MAIN_BT_PLAY_D.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_PLAY_P.PGX:
+Header: 2600000018000000010000008905000000000000
+Width: 38, Height: 24, BPP: 32, Packed Size: 1417, Flags: 0
+Dimensions: 38x24, BPP: 32, Packed Size: 1417
+Decompressed data length: 3648
+Expected data length: 3648
+Image saved successfully to .\test\MAIN_BT_PLAY_P.png
+Saved .\test\MAIN_BT_PLAY_P.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_SKIP.PGX:
+Header: 3d0000001100000001000000ad04000000000000
+Width: 61, Height: 17, BPP: 32, Packed Size: 1197, Flags: 0
+Dimensions: 61x17, BPP: 32, Packed Size: 1197
+Decompressed data length: 4148
+Expected data length: 4148
+Image saved successfully to .\test\MAIN_BT_SKIP.png
+Saved .\test\MAIN_BT_SKIP.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_SKIP_P.PGX:
+Header: 4300000012000000010000001c05000000000000
+Width: 67, Height: 18, BPP: 32, Packed Size: 1308, Flags: 0
+Dimensions: 67x18, BPP: 32, Packed Size: 1308
+Decompressed data length: 4824
+Expected data length: 4824
+Image saved successfully to .\test\MAIN_BT_SKIP_P.png
+Saved .\test\MAIN_BT_SKIP_P.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_SYSTEM.PGX:
+Header: 380000000e00000001000000c503000000000000
+Width: 56, Height: 14, BPP: 32, Packed Size: 965, Flags: 0
+Dimensions: 56x14, BPP: 32, Packed Size: 965
+Decompressed data length: 3136
+Expected data length: 3136
+Image saved successfully to .\test\MAIN_BT_SYSTEM.png
+Saved .\test\MAIN_BT_SYSTEM.png
+Processing .\c08d1.g\PT\FRM\MAIN_BT_SYSTEM_P.PGX:
+Header: 3f00000010000000010000003f04000000000000
+Width: 63, Height: 16, BPP: 32, Packed Size: 1087, Flags: 0
+Dimensions: 63x16, BPP: 32, Packed Size: 1087
+Decompressed data length: 4032
+Expected data length: 4032
+Image saved successfully to .\test\MAIN_BT_SYSTEM_P.png
+Saved .\test\MAIN_BT_SYSTEM_P.png
+Processing .\c08d1.g\PT\FRM\MAIN_CAL_WIN.PGX:
+Header: 85000000a1000000010000009544000000000000
+Width: 133, Height: 161, BPP: 32, Packed Size: 17557, Flags: 0
+Dimensions: 133x161, BPP: 32, Packed Size: 17557
+Decompressed data length: 85652
+Expected data length: 85652
+Image saved successfully to .\test\MAIN_CAL_WIN.png
+Saved .\test\MAIN_CAL_WIN.png
+Processing .\c08d1.g\PT\FRM\MAIN_CURSOR.PGX:
+Header: 1c0000001c000000010000004204000000000000
+Width: 28, Height: 28, BPP: 32, Packed Size: 1090, Flags: 0
+Dimensions: 28x28, BPP: 32, Packed Size: 1090
+Decompressed data length: 3136
+Expected data length: 3136
+Image saved successfully to .\test\MAIN_CURSOR.png
+Saved .\test\MAIN_CURSOR.png
+Processing .\c08d1.g\PT\FRM\MAIN_FRAME.PGX:
+Header: 9d020000f8000000010000000b8f010000000000
+Width: 669, Height: 248, BPP: 32, Packed Size: 102155, Flags: 0
+Dimensions: 669x248, BPP: 32, Packed Size: 102155
+Decompressed data length: 663648
+Expected data length: 663648
+Image saved successfully to .\test\MAIN_FRAME.png
+Saved .\test\MAIN_FRAME.png
+Processing .\c08d1.g\PT\FRM\MAIN_FRAME_C.PGX:
+Header: 9d020000f8000000010000000691010000000000
+Width: 669, Height: 248, BPP: 32, Packed Size: 102662, Flags: 0
+Dimensions: 669x248, BPP: 32, Packed Size: 102662
+Decompressed data length: 663648
+Expected data length: 663648
+Image saved successfully to .\test\MAIN_FRAME_C.png
+Saved .\test\MAIN_FRAME_C.png
+Processing .\c08d1.g\PT\FRM\MAIN_GAUGE.PGX:
+Header: 6200000006000000010000002802000000000000
+Width: 98, Height: 6, BPP: 32, Packed Size: 552, Flags: 0
+Dimensions: 98x6, BPP: 32, Packed Size: 552
+Decompressed data length: 2352
+Expected data length: 2352
+Image saved successfully to .\test\MAIN_GAUGE.png
+Saved .\test\MAIN_GAUGE.png
+Processing .\c08d1.g\PT\FRM\MAIN_PARAMWIN.PGX:
+Header: a900000099000000010000003687000000000000
+Width: 169, Height: 153, BPP: 32, Packed Size: 34614, Flags: 0
+Dimensions: 169x153, BPP: 32, Packed Size: 34614
+Decompressed data length: 103428
+Expected data length: 103428
+Image saved successfully to .\test\MAIN_PARAMWIN.png
+Saved .\test\MAIN_PARAMWIN.png
+Processing .\c08d1.g\PT\FRM\MAIN_PARAM_WIN.PGX:
+Header: a90000009900000001000000c68f000000000000
+Width: 169, Height: 153, BPP: 32, Packed Size: 36806, Flags: 0
+Dimensions: 169x153, BPP: 32, Packed Size: 36806
+Decompressed data length: 103428
+Expected data length: 103428
+Image saved successfully to .\test\MAIN_PARAM_WIN.png
+Saved .\test\MAIN_PARAM_WIN.png
+Processing .\c08d1.g\PT\FRM\MAIN_SYS_WIN.PGX:
+Header: 78000000b400000001000000e574000000000000
+Width: 120, Height: 180, BPP: 32, Packed Size: 29925, Flags: 0
+Dimensions: 120x180, BPP: 32, Packed Size: 29925
+Decompressed data length: 86400
+Expected data length: 86400
+Image saved successfully to .\test\MAIN_SYS_WIN.png
+Saved .\test\MAIN_SYS_WIN.png
+Processing .\c08d1.g\PT\FRM\PD_BTN.PGX:
+Header: 080100002400000001000010a81c000000000000
+Width: 264, Height: 36, BPP: 32, Packed Size: 7336, Flags: 0
+Dimensions: 264x36, BPP: 32, Packed Size: 7336
+Decompressed data length: 38016
+Expected data length: 38016
+Image saved successfully to .\test\PD_BTN.png
+Saved .\test\PD_BTN.png
+Processing .\c08d1.g\PT\FRM\PD_BTN_P.PGX:
+Header: 0801000024000000010000109e1f000000000000
+Width: 264, Height: 36, BPP: 32, Packed Size: 8094, Flags: 0
+Dimensions: 264x36, BPP: 32, Packed Size: 8094
+Decompressed data length: 38016
+Expected data length: 38016
+Image saved successfully to .\test\PD_BTN_P.png
+Saved .\test\PD_BTN_P.png
+Processing .\c08d1.g\PT\FRM\PD_WIN.PGX:
+Header: c30000003a000000010000104617000000000000
+Width: 195, Height: 58, BPP: 32, Packed Size: 5958, Flags: 0
+Dimensions: 195x58, BPP: 32, Packed Size: 5958
+Decompressed data length: 45240
+Expected data length: 45240
+Image saved successfully to .\test\PD_WIN.png
+Saved .\test\PD_WIN.png
+Processing .\c08d1.g\PT\FRM\SELWIN.PGX:
+Header: c2040000350000000100001027a8000000000000
+Width: 1218, Height: 53, BPP: 32, Packed Size: 43047, Flags: 0
+Dimensions: 1218x53, BPP: 32, Packed Size: 43047
+Decompressed data length: 258216
+Expected data length: 258216
+Image saved successfully to .\test\SELWIN.png
+Saved .\test\SELWIN.png
+Processing .\c08d1.g\PT\FRM\SLIDER_BAR.PGX:
+Header: a500000003000000010000007102000000000000
+Width: 165, Height: 3, BPP: 32, Packed Size: 625, Flags: 0
+Dimensions: 165x3, BPP: 32, Packed Size: 625
+Decompressed data length: 1980
+Expected data length: 1980
+Image saved successfully to .\test\SLIDER_BAR.png
+Saved .\test\SLIDER_BAR.png
+Processing .\c08d1.g\PT\FRM\SLIDER_PICK.PGX:
+Header: 110000001100000001000000b802000000000000
+Width: 17, Height: 17, BPP: 32, Packed Size: 696, Flags: 0
+Dimensions: 17x17, BPP: 32, Packed Size: 696
+Decompressed data length: 1156
+Expected data length: 1156
+Image saved successfully to .\test\SLIDER_PICK.png
+Saved .\test\SLIDER_PICK.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_BAR.PGX:
+Header: 2003000025000000010000008a56000000000000
+Width: 800, Height: 37, BPP: 32, Packed Size: 22154, Flags: 0
+Dimensions: 800x37, BPP: 32, Packed Size: 22154
+Decompressed data length: 118400
+Expected data length: 118400
+Image saved successfully to .\test\TOOLBAR_BAR.png
+Saved .\test\TOOLBAR_BAR.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_FULL.PGX:
+Header: 420000000e000000010000005e04000000000000
+Width: 66, Height: 14, BPP: 32, Packed Size: 1118, Flags: 0
+Dimensions: 66x14, BPP: 32, Packed Size: 1118
+Decompressed data length: 3696
+Expected data length: 3696
+Image saved successfully to .\test\TOOLBAR_FULL.png
+Saved .\test\TOOLBAR_FULL.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_FULL_P.PGX:
+Header: 490000000f000000010000000205000000000000
+Width: 73, Height: 15, BPP: 32, Packed Size: 1282, Flags: 0
+Dimensions: 73x15, BPP: 32, Packed Size: 1282
+Decompressed data length: 4380
+Expected data length: 4380
+Image saved successfully to .\test\TOOLBAR_FULL_P.png
+Saved .\test\TOOLBAR_FULL_P.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_PICK.PGX:
+Header: 0b0000000b00000001000000b401000000000000
+Width: 11, Height: 11, BPP: 32, Packed Size: 436, Flags: 0
+Dimensions: 11x11, BPP: 32, Packed Size: 436
+Decompressed data length: 484
+Expected data length: 484
+Image saved successfully to .\test\TOOLBAR_PICK.png
+Saved .\test\TOOLBAR_PICK.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_QUIT.PGX:
+Header: 420000000f000000010000005a04000000000000
+Width: 66, Height: 15, BPP: 32, Packed Size: 1114, Flags: 0
+Dimensions: 66x15, BPP: 32, Packed Size: 1114
+Decompressed data length: 3960
+Expected data length: 3960
+Image saved successfully to .\test\TOOLBAR_QUIT.png
+Saved .\test\TOOLBAR_QUIT.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_QUIT_P.PGX:
+Header: 4800000010000000010000006e04000000000000
+Width: 72, Height: 16, BPP: 32, Packed Size: 1134, Flags: 0
+Dimensions: 72x16, BPP: 32, Packed Size: 1134
+Decompressed data length: 4608
+Expected data length: 4608
+Image saved successfully to .\test\TOOLBAR_QUIT_P.png
+Saved .\test\TOOLBAR_QUIT_P.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_SLID.PGX:
+Header: a90000000a00000001000000d705000000000000
+Width: 169, Height: 10, BPP: 32, Packed Size: 1495, Flags: 0
+Dimensions: 169x10, BPP: 32, Packed Size: 1495
+Decompressed data length: 6760
+Expected data length: 6760
+Image saved successfully to .\test\TOOLBAR_SLID.png
+Saved .\test\TOOLBAR_SLID.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_WIN.PGX:
+Header: 310000000f000000010000007103000000000000
+Width: 49, Height: 15, BPP: 32, Packed Size: 881, Flags: 0
+Dimensions: 49x15, BPP: 32, Packed Size: 881
+Decompressed data length: 2940
+Expected data length: 2940
+Image saved successfully to .\test\TOOLBAR_WIN.png
+Saved .\test\TOOLBAR_WIN.png
+Processing .\c08d1.g\PT\FRM\TOOLBAR_WIN_P.PGX:
+Header: 360000001000000001000000a903000000000000
+Width: 54, Height: 16, BPP: 32, Packed Size: 937, Flags: 0
+Dimensions: 54x16, BPP: 32, Packed Size: 937
+Decompressed data length: 3456
+Expected data length: 3456
+Image saved successfully to .\test\TOOLBAR_WIN_P.png
+Saved .\test\TOOLBAR_WIN_P.png
