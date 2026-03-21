@@ -28,10 +28,18 @@ def decode_soft_index(index: int) -> tuple[int, int, int]:
 def normalize_text(text: object) -> str:
     if text is None:
         return ""
-    return "".join(str(text).replace("\r", "").replace("\n", "").split())
+    normalized = unicodedata.normalize("NFKC", str(text).replace("\r", "").replace("\n", ""))
+    chars: list[str] = []
+    for char in normalized:
+        code = ord(char)
+        if 0x30A1 <= code <= 0x30F6:
+            chars.append(chr(code - 0x60))
+        else:
+            chars.append(char)
+    return "".join("".join(chars).split())
 
 
-def smart_wrap(text: str, limit: int = 54) -> str:
+def smart_wrap(text: str, limit: int = 53) -> str:
     if not text:
         return ""
     paragraphs = str(text).replace("\r\n", "\n").replace("\r", "\n").split("\n")
@@ -98,6 +106,16 @@ def split_translation(text: str, count: int, weights: list[int]) -> list[str]:
     while len(parts) < count:
         parts.append("")
     return parts
+
+
+def split_delimited_translation(text: str, count: int) -> list[str] | None:
+    text = "" if text is None else str(text)
+    if count <= 0:
+        return []
+    parts = [part.strip() for part in text.split("|")]
+    if len(parts) != count:
+        return None
+    return [smart_wrap(part) for part in parts]
 
 
 @dataclass
@@ -303,17 +321,21 @@ def align_original_rows(rows: list[SheetRow], token_map: dict[int, ExtractedToke
         row_text = normalize_text(row.jp)
         if not row_text:
             continue
-        found = None
-        for idx in range(token_pos, min(len(tokens), token_pos + 200)):
-            if normalize_text(tokens[idx].text) == row_text:
-                found = idx
+        while token_pos < len(tokens) and normalize_text(tokens[token_pos].text) != row_text:
+            found = None
+            for idx in range(token_pos + 1, min(len(tokens), token_pos + 40)):
+                if normalize_text(tokens[idx].text) == row_text:
+                    found = idx
+                    break
+            if found is None:
                 break
-        if found is None:
+            token_pos = found
+        if token_pos >= len(tokens) or normalize_text(tokens[token_pos].text) != row_text:
             continue
-        token = tokens[found]
+        token = tokens[token_pos]
         row.kind = token.kind
         row.line_no = token.line_no
-        token_pos = found + 1
+        token_pos += 1
 
 
 def build_groups(rows: list[SheetRow]) -> dict[int, dict[str, list[SheetRow]]]:
@@ -378,10 +400,23 @@ def process_sheet(original_ws: Worksheet, translated_ws: Worksheet | None, token
                 for item, part in zip(visible_rows, parts):
                     output[item.excel_row] = part
                 ti += 1
-                for item in reading_rows:
-                    if ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(item.jp):
-                        output[item.excel_row] = smart_wrap(translated_rows[ti].translation)
-                        ti += 1
+                reading_key = " | ".join(item.jp for item in reading_rows)
+                if reading_rows and ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(reading_key):
+                    reading_parts = split_delimited_translation(translated_rows[ti].translation, len(reading_rows))
+                    if reading_parts is None:
+                        reading_parts = split_translation(
+                            translated_rows[ti].translation,
+                            len(reading_rows),
+                            [max(len(item.jp), 1) for item in reading_rows],
+                        )
+                    for item, part in zip(reading_rows, reading_parts):
+                        output[item.excel_row] = part
+                    ti += 1
+                else:
+                    for item in reading_rows:
+                        if ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(item.jp):
+                            output[item.excel_row] = smart_wrap(translated_rows[ti].translation)
+                            ti += 1
                 next_oi = oi + len(group["all"])
         elif ti < len(translated_rows):
             translated = translated_rows[ti]
