@@ -113,11 +113,11 @@ class ExtractedToken:
 @dataclass
 class SheetRow:
     excel_row: int
-    index: int
+    index: int | None
     jp: str
     translation: str
     kind: str
-    line_no: int
+    line_no: int | None
 
 
 def extract_tokens_from_line(line: str, line_no: int, in_block_comment: bool) -> tuple[list[ExtractedToken], bool]:
@@ -241,6 +241,7 @@ def ruby_spans_from_line(line: str) -> list[tuple[tuple[int, int], tuple[int, in
 def parse_source_tokens(ss_path: Path) -> dict[int, ExtractedToken]:
     tokens_by_index: dict[int, ExtractedToken] = {}
     in_block_comment = False
+    token_order = 0
     with ss_path.open("r", encoding="cp932", errors="ignore") as handle:
         for line_no, line in enumerate(handle):
             tokens, in_block_comment = extract_tokens_from_line(line, line_no, in_block_comment)
@@ -253,36 +254,73 @@ def parse_source_tokens(ss_path: Path) -> dict[int, ExtractedToken]:
                     if text_span[0] <= token.start and token.end <= text_span[1]:
                         token.kind = "ruby_text"
                         break
-                tokens_by_index[token.index] = token
+                token.index = token_order
+                tokens_by_index[token_order] = token
+                token_order += 1
     return tokens_by_index
 
 
-def load_rows(ws: Worksheet, token_map: dict[int, ExtractedToken]) -> list[SheetRow]:
+def load_original_rows(ws: Worksheet, token_map: dict[int, ExtractedToken]) -> list[SheetRow]:
     rows: list[SheetRow] = []
     for row_idx in range(2, ws.max_row + 1):
-        index_value = ws.cell(row_idx, 1).value
+        index_value = ws.cell(row_idx, 3).value
         if index_value is None:
             continue
         try:
             index = int(index_value)
         except ValueError:
             continue
-        jp = "" if ws.cell(row_idx, 2).value is None else str(ws.cell(row_idx, 2).value)
-        translation = "" if ws.cell(row_idx, 3).value is None else str(ws.cell(row_idx, 3).value)
-        token = token_map.get(index)
-        if token is None:
-            line_no, _, _ = decode_soft_index(index)
-            kind = "plain"
-        else:
-            line_no = token.line_no
-            kind = token.kind
-        rows.append(SheetRow(row_idx, index, jp, translation, kind, line_no))
+        jp = "" if ws.cell(row_idx, 1).value is None else str(ws.cell(row_idx, 1).value)
+        translation = "" if ws.cell(row_idx, 2).value is None else str(ws.cell(row_idx, 2).value)
+        rows.append(SheetRow(row_idx, index, jp, translation, "plain", None))
     return rows
+
+
+def load_translated_rows(ws: Worksheet) -> list[SheetRow]:
+    rows: list[SheetRow] = []
+    for row_idx in range(2, ws.max_row + 1):
+        key = ws.cell(row_idx, 1).value
+        value = ws.cell(row_idx, 2).value
+        if key is None and value is None:
+            continue
+        rows.append(
+            SheetRow(
+                excel_row=row_idx,
+                index=None,
+                jp="" if key is None else str(key),
+                translation="" if value is None else str(value),
+                kind="plain",
+                line_no=None,
+            )
+        )
+    return rows
+
+
+def align_original_rows(rows: list[SheetRow], token_map: dict[int, ExtractedToken]) -> None:
+    tokens = [token_map[idx] for idx in sorted(token_map)]
+    token_pos = 0
+    for row in rows:
+        row_text = normalize_text(row.jp)
+        if not row_text:
+            continue
+        found = None
+        for idx in range(token_pos, min(len(tokens), token_pos + 200)):
+            if normalize_text(tokens[idx].text) == row_text:
+                found = idx
+                break
+        if found is None:
+            continue
+        token = tokens[found]
+        row.kind = token.kind
+        row.line_no = token.line_no
+        token_pos = found + 1
 
 
 def build_groups(rows: list[SheetRow]) -> dict[int, dict[str, list[SheetRow]]]:
     groups: dict[int, dict[str, list[SheetRow]]] = {}
     for row in rows:
+        if row.line_no is None:
+            continue
         group = groups.setdefault(row.line_no, {"all": [], "plain": [], "ruby_text": [], "ruby_reading": []})
         group["all"].append(row)
         group[row.kind].append(row)
@@ -297,11 +335,12 @@ def find_matching_sheet(original_sheet: Worksheet, translated_workbook: Workbook
     by_title = translated_sheet_map(translated_workbook)
     if original_sheet.title in by_title:
         return by_title[original_sheet.title]
-    original_name = original_sheet["D1"].value
-    if original_name:
-        for sheet in translated_workbook.worksheets:
-            if sheet["D1"].value == original_name:
-                return sheet
+    if len(translated_workbook.worksheets) == 1:
+        return translated_workbook.worksheets[0]
+    original_name = original_sheet.title
+    for sheet in translated_workbook.worksheets:
+        if sheet.title == original_name:
+            return sheet
     original_index = original_sheet.parent.worksheets.index(original_sheet)
     if original_index < len(translated_workbook.worksheets):
         return translated_workbook.worksheets[original_index]
@@ -309,10 +348,11 @@ def find_matching_sheet(original_sheet: Worksheet, translated_workbook: Workbook
 
 
 def process_sheet(original_ws: Worksheet, translated_ws: Worksheet | None, token_map: dict[int, ExtractedToken]) -> None:
-    original_rows = load_rows(original_ws, token_map)
-    translated_rows = load_rows(translated_ws, token_map) if translated_ws is not None else []
+    original_rows = load_original_rows(original_ws, token_map)
+    align_original_rows(original_rows, token_map)
+    translated_rows = load_translated_rows(translated_ws) if translated_ws is not None else []
     groups = build_groups(original_rows)
-    output: dict[int, str] = {row.excel_row: "" for row in original_rows}
+    output: dict[int, str] = {row.excel_row: row.translation for row in original_rows}
 
     oi = 0
     ti = 0
@@ -321,57 +361,40 @@ def process_sheet(original_ws: Worksheet, translated_ws: Worksheet | None, token
         next_oi = oi + 1
         group = groups.get(row.line_no)
         if group and group["ruby_text"] and group["all"] and row.index == group["all"][0].index:
-            consumed = False
-            plain_rows = group["plain"]
-            ruby_rows = group["ruby_text"]
-            plain_jp = "".join(item.jp for item in plain_rows)
-            ruby_jp = "".join(item.jp for item in ruby_rows)
-            if plain_rows and ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(plain_jp):
-                parts = split_translation(translated_rows[ti].translation, len(plain_rows), [max(len(item.jp), 1) for item in plain_rows])
-                for item, part in zip(plain_rows, parts):
+            group_rows = list(group["all"])
+            if ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(group_rows[0].jp):
+                output[group_rows[0].excel_row] = smart_wrap(translated_rows[ti].translation)
+                ti += 1
+                group_rows = group_rows[1:]
+            visible_rows = [item for item in group_rows if item.kind != "ruby_reading"]
+            reading_rows = [item for item in group_rows if item.kind == "ruby_reading"]
+            visible_jp = "".join(item.jp for item in visible_rows)
+            if ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(visible_jp):
+                parts = split_translation(
+                    translated_rows[ti].translation,
+                    len(visible_rows),
+                    [max(len(item.jp), 1) for item in visible_rows],
+                )
+                for item, part in zip(visible_rows, parts):
                     output[item.excel_row] = part
                 ti += 1
-                consumed = True
-            if ruby_rows and ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(ruby_jp):
-                parts = split_translation(translated_rows[ti].translation, len(ruby_rows), [max(len(item.jp), 1) for item in ruby_rows])
-                for item, part in zip(ruby_rows, parts):
-                    output[item.excel_row] = part
-                ti += 1
-                consumed = True
-            if consumed:
-                for item in group["ruby_reading"]:
-                    output[item.excel_row] = ""
-                next_oi = oi + len(group["all"])
-            else:
-                if ti < len(translated_rows):
-                    translated = translated_rows[ti]
-                    if translated.index == row.index or normalize_text(translated.jp) == normalize_text(row.jp):
-                        output[row.excel_row] = smart_wrap(translated.translation)
+                for item in reading_rows:
+                    if ti < len(translated_rows) and normalize_text(translated_rows[ti].jp) == normalize_text(item.jp):
+                        output[item.excel_row] = smart_wrap(translated_rows[ti].translation)
                         ti += 1
-                    elif row.kind == "ruby_reading":
-                        output[row.excel_row] = ""
-                    else:
-                        output[row.excel_row] = smart_wrap(row.translation)
+                next_oi = oi + len(group["all"])
         elif ti < len(translated_rows):
             translated = translated_rows[ti]
-            if translated.index == row.index or normalize_text(translated.jp) == normalize_text(row.jp):
+            if normalize_text(translated.jp) == normalize_text(row.jp):
                 output[row.excel_row] = smart_wrap(translated.translation)
                 ti += 1
-            elif row.kind == "ruby_reading":
-                output[row.excel_row] = ""
-            else:
-                output[row.excel_row] = smart_wrap(row.translation)
         oi = next_oi
 
     for row in original_rows:
-        original_ws.cell(row.excel_row, 3).value = output[row.excel_row]
+        original_ws.cell(row.excel_row, 2).value = output[row.excel_row]
 
 
 def workbook_source_name(workbook_path: Path, workbook: Workbook) -> str:
-    if workbook.worksheets:
-        source_name = workbook.worksheets[0]["D1"].value
-        if source_name:
-            return str(source_name)
     return workbook_path.stem
 
 
@@ -411,6 +434,8 @@ def zip_directory(folder: Path, out_zip: Path) -> None:
 
 
 def process_workbooks(original_dir: Path, translated_dir: Path, ss_dir: Path, output_dir: Path, output_zip: Path | None) -> None:
+    if output_dir.exists():
+        shutil.rmtree(output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
     original_files = collect_xlsx_files(original_dir)
     translated_files = collect_xlsx_files(translated_dir)
