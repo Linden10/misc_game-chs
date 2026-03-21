@@ -13,6 +13,9 @@ try:
 except ImportError as exc:
     raise SystemExit("openpyxl is required. Install it with: pip install openpyxl") from exc
 
+from openpyxl.workbook.workbook import Workbook
+from openpyxl.worksheet.worksheet import Worksheet
+
 
 def soft_index(line_no: int, start: int, end: int) -> int:
     return line_no * 1000000 + start * 1000 + end
@@ -126,7 +129,7 @@ def extract_tokens_from_line(line: str, line_no: int, in_block_comment: bool) ->
     for n, char in enumerate(line):
         if char == "/":
             if in_block_comment:
-                if line[n - 1 : n] == "*":
+                if n > 0 and line[n - 1] == "*":
                     in_block_comment = False
             else:
                 if line[n + 1 : n + 2] == "*":
@@ -254,7 +257,7 @@ def parse_source_tokens(ss_path: Path) -> dict[int, ExtractedToken]:
     return tokens_by_index
 
 
-def load_rows(ws, token_map: dict[int, ExtractedToken]) -> list[SheetRow]:
+def load_rows(ws: Worksheet, token_map: dict[int, ExtractedToken]) -> list[SheetRow]:
     rows: list[SheetRow] = []
     for row_idx in range(2, ws.max_row + 1):
         index_value = ws.cell(row_idx, 1).value
@@ -262,7 +265,7 @@ def load_rows(ws, token_map: dict[int, ExtractedToken]) -> list[SheetRow]:
             continue
         try:
             index = int(index_value)
-        except Exception:
+        except ValueError:
             continue
         jp = "" if ws.cell(row_idx, 2).value is None else str(ws.cell(row_idx, 2).value)
         translation = "" if ws.cell(row_idx, 3).value is None else str(ws.cell(row_idx, 3).value)
@@ -282,15 +285,15 @@ def build_groups(rows: list[SheetRow]) -> dict[int, dict[str, list[SheetRow]]]:
     for row in rows:
         group = groups.setdefault(row.line_no, {"all": [], "plain": [], "ruby_text": [], "ruby_reading": []})
         group["all"].append(row)
-        group.setdefault(row.kind, []).append(row)
+        group[row.kind].append(row)
     return groups
 
 
-def translated_sheet_map(workbook) -> dict[str, object]:
+def translated_sheet_map(workbook: Workbook) -> dict[str, Worksheet]:
     return {sheet.title: sheet for sheet in workbook.worksheets}
 
 
-def find_matching_sheet(original_sheet, translated_workbook):
+def find_matching_sheet(original_sheet: Worksheet, translated_workbook: Workbook) -> Worksheet | None:
     by_title = translated_sheet_map(translated_workbook)
     if original_sheet.title in by_title:
         return by_title[original_sheet.title]
@@ -305,7 +308,7 @@ def find_matching_sheet(original_sheet, translated_workbook):
     return None
 
 
-def process_sheet(original_ws, translated_ws, token_map: dict[int, ExtractedToken]) -> None:
+def process_sheet(original_ws: Worksheet, translated_ws: Worksheet | None, token_map: dict[int, ExtractedToken]) -> None:
     original_rows = load_rows(original_ws, token_map)
     translated_rows = load_rows(translated_ws, token_map) if translated_ws is not None else []
     groups = build_groups(original_rows)
@@ -315,6 +318,7 @@ def process_sheet(original_ws, translated_ws, token_map: dict[int, ExtractedToke
     ti = 0
     while oi < len(original_rows):
         row = original_rows[oi]
+        next_oi = oi + 1
         group = groups.get(row.line_no)
         if group and group["ruby_text"] and group["all"] and row.index == group["all"][0].index:
             consumed = False
@@ -337,9 +341,18 @@ def process_sheet(original_ws, translated_ws, token_map: dict[int, ExtractedToke
             if consumed:
                 for item in group["ruby_reading"]:
                     output[item.excel_row] = ""
-                oi += len(group["all"])
-                continue
-        if ti < len(translated_rows):
+                next_oi = oi + len(group["all"])
+            else:
+                if ti < len(translated_rows):
+                    translated = translated_rows[ti]
+                    if translated.index == row.index or normalize_text(translated.jp) == normalize_text(row.jp):
+                        output[row.excel_row] = smart_wrap(translated.translation)
+                        ti += 1
+                    elif row.kind == "ruby_reading":
+                        output[row.excel_row] = ""
+                    else:
+                        output[row.excel_row] = smart_wrap(row.translation)
+        elif ti < len(translated_rows):
             translated = translated_rows[ti]
             if translated.index == row.index or normalize_text(translated.jp) == normalize_text(row.jp):
                 output[row.excel_row] = smart_wrap(translated.translation)
@@ -348,13 +361,13 @@ def process_sheet(original_ws, translated_ws, token_map: dict[int, ExtractedToke
                 output[row.excel_row] = ""
             else:
                 output[row.excel_row] = smart_wrap(row.translation)
-        oi += 1
+        oi = next_oi
 
     for row in original_rows:
         original_ws.cell(row.excel_row, 3).value = output[row.excel_row]
 
 
-def workbook_source_name(workbook_path: Path, workbook) -> str:
+def workbook_source_name(workbook_path: Path, workbook: Workbook) -> str:
     if workbook.worksheets:
         source_name = workbook.worksheets[0]["D1"].value
         if source_name:
