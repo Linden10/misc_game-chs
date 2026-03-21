@@ -359,10 +359,6 @@ def find_matching_sheet(original_sheet: Worksheet, translated_workbook: Workbook
         return by_title[original_sheet.title]
     if len(translated_workbook.worksheets) == 1:
         return translated_workbook.worksheets[0]
-    original_name = original_sheet.title
-    for sheet in translated_workbook.worksheets:
-        if sheet.title == original_name:
-            return sheet
     original_index = original_sheet.parent.worksheets.index(original_sheet)
     if original_index < len(translated_workbook.worksheets):
         return translated_workbook.worksheets[original_index]
@@ -429,7 +425,7 @@ def process_sheet(original_ws: Worksheet, translated_ws: Worksheet | None, token
         original_ws.cell(row.excel_row, 2).value = output[row.excel_row]
 
 
-def workbook_source_name(workbook_path: Path, workbook: Workbook) -> str:
+def workbook_source_name(workbook_path: Path) -> str:
     return workbook_path.stem
 
 
@@ -482,7 +478,7 @@ def process_workbooks(original_dir: Path, translated_dir: Path, ss_dir: Path, ou
         translated_path = translated_files[file_name]
         original_book = openpyxl.load_workbook(original_path)
         translated_book = openpyxl.load_workbook(translated_path)
-        source_name = workbook_source_name(original_path, original_book)
+        source_name = workbook_source_name(original_path)
         ss_path = ss_files.get(source_name) or ss_files.get(f"{source_name}.ss")
         token_map = parse_source_tokens(ss_path) if ss_path else {}
         for original_ws in original_book.worksheets:
