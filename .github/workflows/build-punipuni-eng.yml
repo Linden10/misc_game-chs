@@ -1,0 +1,37 @@
+name: Build punipuni_eng DLL
+
+on:
+  push:
+    paths:
+      - '工具/GAME_HOOK/punipuni_eng/**'
+      - '工具/GAME_HOOK/LIB/**'
+  pull_request:
+    paths:
+      - '工具/GAME_HOOK/punipuni_eng/**'
+      - '工具/GAME_HOOK/LIB/**'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Build punipuni_eng (Release|Win32)
+        run: |
+          msbuild "工具/GAME_HOOK/punipuni_eng/punipuni_eng.vcxproj" `
+            /p:Configuration=Release `
+            /p:Platform=Win32 `
+            /p:OutDir="${{ github.workspace }}\build\" `
+            /p:SolutionDir="${{ github.workspace }}\工具\GAME_HOOK\"
+
+      - name: Upload punipuni.dll
+        uses: actions/upload-artifact@v4
+        with:
+          name: punipuni-eng-dll
+          path: build/punipuni.dll
