@@ -145,7 +145,6 @@
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="HOOK_main.cpp" />
     <ClCompile Include="text_process.cpp" />
-    <ClCompile Include="textReplacer_halfwidth.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\LIB\convert.h" />
@@ -157,7 +156,6 @@
     <ClInclude Include="..\LIB\winapi_def.h" />
     <ClInclude Include="HOOK_main.h" />
     <ClInclude Include="text_process.h" />
-    <ClInclude Include="textReplacer_halfwidth.h" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="detours.lib" />

@@ -6,7 +6,6 @@
 #include "HookTitle.h"
 #include "text_process.h"
 #include "textReplacer.h"
-#include "textReplacer_halfwidth.h"
 
 void CreateConsole()
 {
@@ -27,13 +26,6 @@ void HOOK_main() {
 	changeWindowCfg.newWindowName = L"Punipuni - English";
 	hookTitle_main();
 
-	// --- Half-width English text via GetGlyphOutlineA hook ---
-	// Mode 2 = hook GetGlyphOutlineA with half-width support for ASCII
-	install_hook_textreplace_halfwidth(2, "trans\\data.bin", "yorimichi");
-
-	// --- Font override ---
-	// Use a proportional-friendly font; charset 0 = ANSI_CHARSET
-	newFontName = L"Arial";
-	newCharset = 0;  // ANSI_CHARSET (supports half-width Latin)
-	installFontHook_main(1, 1, 1, 0);
+	// --- Text replacement (reads trans\data.bin) ---
+	install_hook_textreplaceEx(2, "trans\\data.bin", "yorimichi");
 }
