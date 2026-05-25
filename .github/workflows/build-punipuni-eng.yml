@@ -22,10 +22,10 @@ jobs:
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      - name: Build punipuni_eng (Release|Win32)
+      - name: Build punipuni_eng (Release_for_others|Win32)
         run: |
           msbuild "工具/GAME_HOOK/punipuni_eng/punipuni_eng.vcxproj" `
-            /p:Configuration=Release `
+            /p:Configuration=Release_for_others `
             /p:Platform=Win32 `
             /p:OutDir="${{ github.workspace }}\build\" `
             /p:SolutionDir="${{ github.workspace }}\工具\GAME_HOOK\"

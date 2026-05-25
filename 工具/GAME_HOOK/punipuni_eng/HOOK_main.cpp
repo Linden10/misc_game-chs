@@ -22,9 +22,11 @@ void HOOK_main() {
 	InstallHook_replacetext();
 
 	// --- Window title ---
+#ifndef Release_for_others
 	changeWindowCfg.isCheckOri = false;
 	changeWindowCfg.newWindowName = L"Punipuni - English";
 	hookTitle_main();
+#endif
 
 	// --- Text replacement (reads trans\data.bin) ---
 	install_hook_textreplaceEx(2, "trans\\data.bin", "yorimichi");
