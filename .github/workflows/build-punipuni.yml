@@ -1,0 +1,53 @@
+name: Build punipuni DLL
+
+on:
+  push:
+    paths:
+      - '工具/GAME_HOOK/punipuni/**'
+      - '工具/GAME_HOOK/LIB/**'
+  pull_request:
+    paths:
+      - '工具/GAME_HOOK/punipuni/**'
+      - '工具/GAME_HOOK/LIB/**'
+  workflow_dispatch:
+    inputs:
+      title:
+        description: 'Custom window title (blank = keep original Japanese title)'
+        required: false
+        default: ''
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Patch custom title
+        if: ${{ github.event.inputs.title != '' }}
+        shell: pwsh
+        run: |
+          $file = "工具/GAME_HOOK/punipuni/HOOK_main.cpp"
+          $content = [System.IO.File]::ReadAllText($file, [System.Text.Encoding]::UTF8)
+          $inject = "changeWindowCfg.newWindowName = L`"${{ github.event.inputs.title }}`";`n`t"
+          $patched = $content.Replace("hookTitle_main();", "${inject}hookTitle_main();")
+          [System.IO.File]::WriteAllText($file, $patched, [System.Text.Encoding]::UTF8)
+
+      - name: Build punipuni (Release_for_others|Win32)
+        shell: pwsh
+        run: |
+          msbuild "工具/GAME_HOOK/punipuni/punipuni.vcxproj" `
+            /p:Configuration=Release_for_others `
+            /p:Platform=Win32 `
+            /p:OutDir="${{ github.workspace }}\build\" `
+            /p:SolutionDir="${{ github.workspace }}\工具\GAME_HOOK\"
+
+      - name: Upload punipuni.dll
+        uses: actions/upload-artifact@v4
+        with:
+          name: punipuni-dll
+          path: build/punipuni.dll
